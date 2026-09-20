@@ -9,9 +9,9 @@
 
 <br>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-28-10b981?style=flat-square)](skills/)
-[![MCP Tools](https://img.shields.io/badge/MCP_tools-13-10b981?style=flat-square)](https://github.com/PuckAPI/mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-5dd5ff.svg?style=flat-square)](LICENSE)
+[![Skills](https://img.shields.io/badge/skills-28-5dd5ff?style=flat-square)](skills/)
+[![MCP Tools](https://img.shields.io/badge/MCP_tools-15-5dd5ff?style=flat-square)](https://github.com/PuckAPI/mcp)
 
 [Quick Start](#quick-start) · [All Skills](#skills) · [How It Works](#how-it-works) · [Data](#data) · [Docs](#reference-docs)
 
@@ -28,7 +28,7 @@ Claude: [loads xg-model-building skill → walks you through feature selection,
 
 ```
 You:    "What's the edge on tonight's Sabres game?"
-Claude: [loads odds-explorer + edge-detection → pulls live odds from 15+ books,
+Claude: [loads odds-explorer + edge-detection → pulls live odds from the books PuckAPI tracks,
          compares to your model's probabilities, calculates EV, sizes the bet]
 ```
 
@@ -55,7 +55,7 @@ claude mcp add puckapi \
 ```
 "Analyze the Maple Leafs' season — record, Corsi, xG, special teams"
 "Help me build a game prediction model"
-"Show me tonight's odds and flag any line movement"
+"Pull tonight's lines and flag any movement"
 "Compare McDavid and MacKinnon across every stat"
 "Backtest my betting strategy over the last 3 seasons"
 ```
@@ -150,7 +150,7 @@ The `dispatch` skill routes your request to the right 2-3 skills automatically.
 |-------|-------------|
 | `dispatch` | Routes your request to the right skills automatically. Start here. |
 | `ai-hockey-workflow` | 4 patterns for hypothesis testing: explore, model, validate, deploy. |
-| `puckapi-tool` | MCP tool router. 13 endpoints, credit tracking, BYOD data support. |
+| `puckapi-tool` | MCP tool router. 15 endpoints, credit tracking, BYOD data support. |
 
 </details>
 

@@ -43,5 +43,6 @@ claude-sports-analytics/
 - MCP server at mcp.puckapi.com/mcp
 - Data starts from 2008-09 season (16+ seasons)
 - 32 active NHL teams (includes Utah Hockey Club, not Arizona Coyotes)
-- 15+ sportsbooks in odds data (DraftKings, FanDuel, BetMGM, ESPN BET, and more)
+- Odds from the books PuckAPI tracks (DraftKings, FanDuel, BetMGM, ESPN BET and others). The
+  count moves as books come and go, so do not publish a number.
 - 12 MCP tools with credit costs defined in puckapi-tool/endpoints.md
