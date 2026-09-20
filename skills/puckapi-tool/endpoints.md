@@ -336,9 +336,9 @@ Goalie performance leaderboard. Filters and sorts across 1,509 goalie-season rec
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `team` | string | No | Filter by team abbreviation |
-| `season` | string | No | Season ID. Default: current season |
+| `season` | string | No | Season ID. Default: the most recent season with stats, echoed back in `filters.season` |
 | `min_games` | integer | No | Minimum games played filter. Default: 10 |
-| `sort_by` | enum | No | `save_pct` `gaa` `gsax` `wins`. Default: `save_pct` |
+| `sort_by` | enum | No | `save_pct` `gaa` `wins`. Default: `save_pct`. `gsax` is refused, see below |
 | `limit` | integer | No | 1-50. Default: 20 |
 
 **Return fields:**
@@ -355,19 +355,29 @@ Goalie performance leaderboard. Filters and sorts across 1,509 goalie-season rec
 | `otLosses` | OT/SO losses |
 | `savePct` | Save percentage (decimal, e.g. 0.918) |
 | `gaa` | Goals against average |
-| `gsax` | Goals saved above expected |
+| `gsax` | Goals saved above expected. **Always null -- not yet computed** |
 | `shutouts` | Shutout count |
-| `highDangerSavePct` | Save % on high-danger shots |
-| `rollingSavePct` | Rolling save % (window varies by implementation) |
-| `trend` | `up` `down` `stable` or null |
-| `restDays` | Days since last game |
+| `highDangerSavePct` | Save % on high-danger shots. **Always null** |
+| `rollingSavePct` | Rolling save %. **Always null** |
+| `trend` | `up` `down` `stable`. **Always null** |
+| `restDays` | Days since last game. **Always null** |
 | `snapshotDate` | Date this record was captured |
 
 **Sort behavior:**
 - `save_pct`: descending (higher is better)
 - `gaa`: ascending (lower is better)
-- `gsax`: descending (higher is better)
 - `wins`: descending
+
+**The five advanced columns are null for every goalie in every season.** They
+exist in the schema and nothing has ever written to them. `sort_by: "gsax"`
+used to be accepted and compared null against null for every pair, so the sort
+did nothing and returned the first N goalies by player id -- an arbitrary list
+that read as a ranking. It is now refused with a message saying why.
+
+To get shot-quality-adjusted goalie numbers, compute them: GSAA needs only
+`saves`, `shots_against` and a league-average save percentage, all available
+here. xSV% and high-danger save% need shot locations, which are in `get_shot_map`
+(x/y coordinates, shot type, strength, shooter and goalie per shot).
 
 ---
 

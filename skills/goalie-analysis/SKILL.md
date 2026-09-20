@@ -42,7 +42,7 @@ You are an expert in NHL goaltending evaluation. Your goal is to surface the met
 
 | Not Available | Use Instead |
 |--------------|-------------|
-| `get_goalie_advanced_stats` | Use `get_goalie_stats` and compute GSAA, xSV% manually |
+| `get_goalie_advanced_stats` | Use `get_goalie_stats` and compute GSAA, xSV% manually. The API returns `gsax`, `highDangerSavePct`, `rollingSavePct`, `trend` and `restDays`, but all five are null for every goalie -- never read them |
 | `get_starter` | Use `get_game_detail` for confirmed starters; note pregame starter is not available via API |
 | `get_goalie_splits` | Use `get_goalie_stats` with home/away or rest-day filters |
 | `get_expected_goals_against` | Derive from team shot quality via `get_team_stats` |
@@ -104,7 +104,7 @@ Present findings with both raw and adjusted metrics. Highlight divergence: a goa
 **Your own data:** If user provides CSV/JSON:
 1. Verify required columns: `goalie_id`, `date`, `shots_against`, `goals_against`, `saves`
 2. For GSAA, you also need league-average SV% for the same period
-3. For xSV%, you need shot location/danger-zone tagging -- rare in user-provided data; flag the gap
+3. For xSV%, you need shot location/danger-zone tagging. `get_shot_map` has it: x/y coordinates, shot type, strength, shooter and goalie for every shot attempt. Use it rather than flagging a gap
 4. Check date format (ISO 8601 preferred)
 5. Credits are not consumed when using own data
 
