@@ -46,7 +46,7 @@ You are an expert at evaluating teams in context -- standings, performance metri
 |--------------|-------------|
 | `get_power_rankings` | Derive from `get_standings` + `get_team_stats` |
 | `get_sos` (strength of schedule) | Compute from opponents' standings records manually |
-| `get_team_advanced_stats` | Use `get_team_stats` and compute advanced metrics (Corsi, Fenwick, PDO) |
+| `get_team_advanced_stats` | `get_team_stats` and `get_standings` already return `corsiPct`, `fenwickPct`, `expectedGoalsFor` and `expectedGoalsAgainst` (5v5). Read those; compute only PDO, which is not returned |
 | `get_team_trends` | Pull `get_team_stats` for multiple date ranges and compare |
 | `get_playoff_odds` | Not available; derive from standings + games remaining |
 | `get_conference_standings` | Use `get_standings` filtered by conference |

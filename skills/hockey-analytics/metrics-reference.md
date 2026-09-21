@@ -161,17 +161,27 @@ After 800 shots: ~67% actual, ~33% regressed
 
 | Metric | PuckAPI | Natural Stat Trick | Evolving Hockey | Moneypuck |
 |--------|---------------|-------------------|-----------------|-----------|
-| CF% | via team_stats | Yes | Yes | Yes |
-| FF% | via team_stats (compute) | Yes | Yes | Yes |
+| CF% | Yes -- `corsiPct`, 5v5 | Yes | Yes | Yes |
+| FF% | Yes -- `fenwickPct`, 5v5 | Yes | Yes | Yes |
 | PDO | via team_stats (compute) | Yes | Yes | Yes |
-| xGF% | No (model-derived) | Yes | Yes | Yes |
-| HDCF% | No | Yes | Yes | Yes |
+| xGF / xGA | Yes -- `expectedGoalsFor`/`Against`, 5v5 | Yes | Yes | Yes |
+| GSAX | Yes -- `gsax`, all strengths | No | Yes | Yes |
+| High-danger SV% | Yes -- `highDangerSavePct` | Yes | Yes | Yes |
+| HDCF% | via `get_shot_map` (compute) | Yes | Yes | Yes |
+| Goalie starts + TOI | Yes -- `get_game_detail` | No | No | No |
 | Zone entries | No | Yes (limited) | No | No |
 | RAPM | No | No | Yes | No |
 | WAR | No | No | Yes | No |
 | GSAA | via goalie_stats (compute) | Yes | Yes | Yes |
 
-**Implication:** PuckAPI MCP provides raw counting stats. Corsi, Fenwick, and PDO are computed from those. xG, RAPM, and WAR require either external data sources or building your own model.
+**Implication:** the shot-quality metrics are returned directly now, not left
+to the caller. Expected goals and GSAX are computed from 1.8M shots scored on
+distance, angle, shot type, strength and rebound status, and calibrated within
+each season so league GSAX sums to zero. RAPM and WAR still need another
+source. PDO and HDCF% are a short computation away from what is returned.
+
+What none of the others give you over MCP is any of this in a single
+conversational call alongside the play-by-play it was derived from.
 
 ---
 

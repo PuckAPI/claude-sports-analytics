@@ -41,8 +41,15 @@ claude-sports-analytics/
 
 - 28 skills, all NHL/hockey focused
 - MCP server at mcp.puckapi.com/mcp
-- Data starts from 2008-09 season (16+ seasons)
+- Data starts from the 2010-11 season. 16 completed seasons plus the one in progress. Do not claim 2008-09; it is not there
 - 32 active NHL teams (includes Utah Hockey Club, not Arizona Coyotes)
 - Odds from the books PuckAPI tracks (DraftKings, FanDuel, BetMGM, ESPN BET and others). The
   count moves as books come and go, so do not publish a number.
-- 12 MCP tools with credit costs defined in puckapi-tool/endpoints.md
+- 15 MCP tools with credit costs defined in puckapi-tool/endpoints.md
+- Shot-quality metrics are returned by the API, not computed by the caller:
+  `gsax`, `expectedGoalsAgainst`, `highDangerSavePct`, `rollingSavePct`,
+  `rollingGsax`, `trend`, `restDays` on goalies; `corsiPct`, `fenwickPct`,
+  `expectedGoalsFor`, `expectedGoalsAgainst` on teams; `goalie_starts` with
+  time on ice on `get_game_detail`
+- Team possession is 5v5 by convention, goalie expected goals cover every
+  strength. Never difference the two

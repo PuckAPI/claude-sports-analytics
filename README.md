@@ -193,7 +193,7 @@ Skills are **markdown files, not code**. Each one teaches Claude a specific doma
 
 | Source | Coverage |
 |--------|----------|
-| **[PuckAPI MCP](https://github.com/PuckAPI/mcp)** | 22,000+ games · 107,000+ odds records · 3,000+ players · 16 seasons (2008-present) |
+| **[PuckAPI MCP](https://github.com/PuckAPI/mcp)** | 6.8M+ plays · 23,000+ games · 107,000+ odds records · 4,800+ players · 16 seasons (2010-11 to present) |
 | **Your own files** | Every skill accepts CSV/JSON. Bring your own data, no credits needed. |
 
 ---

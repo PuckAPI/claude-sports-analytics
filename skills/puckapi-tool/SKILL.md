@@ -9,9 +9,9 @@ metadata:
 
 # PuckAPI Tool
 
-Every other skill delegates data retrieval here. This skill owns the 12 MCP tools, routes requests to the right endpoint, tracks credit cost, and handles the fallback when users bring their own data.
+Every other skill delegates data retrieval here. This skill owns the 15 MCP tools, routes requests to the right endpoint, tracks credit cost, and handles the fallback when users bring their own data.
 
-**Database coverage:** 22,037 games (16 seasons, 2008-2024) | 106,958 odds records (2020-2026 NHL seasons) | 3,021 players | 1,509 goalie-season records | 494 standings records | 34 franchises (32 active + 2 historical)
+**Database coverage:** 6,882,653 plays | 23,495 games (2010-11 onward) | 107,058 odds records (2019-20 onward, sparse in the first year) | 4,898 players | 1,509 goalie-seasons | 1,803 skater-seasons | 21,994 games with derived goalie starts | 494 standings records | 34 franchises (32 active + 2 historical)
 
 **Full parameter schemas:** See `endpoints.md` in this directory (Level 3 -- load on demand).
 
@@ -110,7 +110,7 @@ Every skill that touches time-sensitive data must resolve season IDs before call
 - Regular season: early October to mid-April
 - Playoffs: mid-April to mid-June
 - Offseason: July to September
-- Data coverage starts at `20082009` (2008-09 season)
+- Data coverage starts at `20102011` (2010-11 season). There is nothing before it; querying an earlier season returns empty, not an error
 
 **How to resolve when user says "current season":**
 1. Call `get_standings` with no `season` parameter -- the server resolves automatically

@@ -260,7 +260,7 @@ All 32 active NHL teams. Excludes historical/relocated franchises (Atlanta Thras
 
 ### `search_players`
 
-Find players by name across the full 3,021-player database.
+Find players by name across the full 4,898-player database.
 
 **Parameters:**
 
@@ -338,7 +338,7 @@ Goalie performance leaderboard. Filters and sorts across 1,509 goalie-season rec
 | `team` | string | No | Filter by team abbreviation |
 | `season` | string | No | Season ID. Default: the most recent season with stats, echoed back in `filters.season` |
 | `min_games` | integer | No | Minimum games played filter. Default: 10 |
-| `sort_by` | enum | No | `save_pct` `gaa` `wins`. Default: `save_pct`. `gsax` is refused, see below |
+| `sort_by` | enum | No | `save_pct` `gaa` `gsax` `wins`. Default: `save_pct` |
 | `limit` | integer | No | 1-50. Default: 20 |
 
 **Return fields:**
@@ -355,29 +355,38 @@ Goalie performance leaderboard. Filters and sorts across 1,509 goalie-season rec
 | `otLosses` | OT/SO losses |
 | `savePct` | Save percentage (decimal, e.g. 0.918) |
 | `gaa` | Goals against average |
-| `gsax` | Goals saved above expected. **Always null -- not yet computed** |
+| `gsax` | Goals saved above expected, calibrated within the season |
 | `shutouts` | Shutout count |
-| `highDangerSavePct` | Save % on high-danger shots. **Always null** |
-| `rollingSavePct` | Rolling save %. **Always null** |
-| `trend` | `up` `down` `stable`. **Always null** |
-| `restDays` | Days since last game. **Always null** |
+| `highDangerSavePct` | Save % on shots inside the slot (~25% of all shots) |
+| `rollingSavePct` | Save % over the last 10 appearances |
+| `trend` | `up` `down` `stable` -- recent form against the season |
+| `restDays` | Days since the previous appearance |
 | `snapshotDate` | Date this record was captured |
 
 **Sort behavior:**
 - `save_pct`: descending (higher is better)
 - `gaa`: ascending (lower is better)
+- `gsax`: descending (higher is better)
 - `wins`: descending
 
-**The five advanced columns are null for every goalie in every season.** They
-exist in the schema and nothing has ever written to them. `sort_by: "gsax"`
-used to be accepted and compared null against null for every pair, so the sort
-did nothing and returned the first N goalies by player id -- an arbitrary list
-that read as a ranking. It is now refused with a message saying why.
+**GSAX is computed, not sourced.** Every shot the goalie faced is scored for
+quality -- distance, angle, shot type, strength, and whether it was a rebound --
+and summed into `expectedGoalsAgainst`. GSAX is that minus the goals actually
+allowed, so positive means the goalie saved more than an average goalie would
+have on the same shots. Roughly +20 over a season is an excellent year; the
+best reach the high twenties or thirties.
 
-To get shot-quality-adjusted goalie numbers, compute them: GSAA needs only
-`saves`, `shots_against` and a league-average save percentage, all available
-here. xSV% and high-danger save% need shot locations, which are in `get_shot_map`
-(x/y coordinates, shot type, strength, shooter and goalie per shot).
+**Calibrated within each season**, so league GSAX sums to zero every year and a
+goalie is compared with his own season's peers rather than with a different
+scoring era. Goalie expected goals cover **every strength**; the team-level
+Corsi/Fenwick/xG on `get_standings` and `get_team_stats` are **5v5 only**, so a
+team's xGA is about a quarter smaller than the sum of its goalies'. Both are
+right -- they answer different questions. Do not difference them.
+
+**Known limitation:** the model slightly over-rates the most dangerous chances
+(predicts ~20.5% where the real rate is ~17.5% on the top tenth of shots), so a
+goalie facing an unusually high-danger workload is flattered a little. Treat
+small gaps between two goalies as noise.
 
 ---
 
@@ -536,9 +545,16 @@ All 32 active teams with standard abbreviations:
 
 | Dataset | Coverage | Records |
 |---------|----------|---------|
-| Games | 2008-09 through 2024-25 (16 seasons) | 22,037 |
-| Odds | 2019-20 through 2025-26 | 106,958 |
-| Players | Active + historical (16 seasons) | 3,021 |
-| Goalie stats | Season snapshots | 1,509 |
-| Standings | Season snapshots | 494 |
+| Play-by-play | 2010-11 onward, every event with coordinates | 6,882,653 |
+| Games | 2010-11 onward | 23,495 |
+| Odds | 2019-20 onward (2019-20 itself is sparse, ~9% of games) | 107,058 |
+| Players | Active + historical | 4,898 |
+| Goalie stats | Season snapshots, with GSAX and high-danger save% | 1,509 goalie-seasons |
+| Skater stats | Season totals | 1,803 skater-seasons |
+| Goalie starts | Derived from play-by-play, with time on ice | 21,994 games |
+| Standings | Season snapshots, with Corsi/Fenwick/xG at 5v5 | 494 |
 | Teams | 34 total (32 active) | 34 |
+
+There is nothing before 2010-11. Querying an earlier season returns an empty
+result, not an error, so check what came back rather than assuming a gap in
+the API.

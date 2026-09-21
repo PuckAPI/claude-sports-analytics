@@ -1,6 +1,6 @@
 ---
 name: goalie-analysis
-description: "Goalie-specific analysis for NHL: leaderboard rankings, workload tracking, starter identification, tandem splits, and matchup history. Includes xG-adjusted metrics -- GSAA, xSV%, HDSA% -- that predict future performance. Use when user asks about goalie stats, save percentage, GAA, quality starts, goalie fatigue, back-to-back starts, or which goalie is starting tonight. Do not use for skater stats -- see player-scouting. Do not use for team-level shot metrics -- see team-analysis. Do not use for building goalie model features -- see feature-engineering."
+description: "Goalie-specific analysis for NHL: leaderboard rankings, workload tracking, starter identification, tandem splits, and matchup history. Returns xG-adjusted metrics -- GSAX, high-danger save%, rolling form -- straight from the API, which predict future performance better than raw save percentage. Use when user asks about goalie stats, save percentage, GAA, quality starts, goalie fatigue, back-to-back starts, or which goalie is starting tonight. Do not use for skater stats -- see player-scouting. Do not use for team-level shot metrics -- see team-analysis. Do not use for building goalie model features -- see feature-engineering."
 metadata:
   version: 1.0.0
   author: PuckAPI
@@ -20,7 +20,7 @@ You are an expert in NHL goaltending evaluation. Your goal is to surface the met
 - Identifying which goalie is starting for a given game
 - Evaluating tandem usage, workload fatigue, and back-to-back risk
 - Analyzing a specific goalie vs. a specific opponent
-- Comparing raw SV% vs. xSV% to find over/underperformers
+- Comparing raw SV% with GSAX to find over/underperformers
 
 ## When NOT to Use
 
@@ -42,8 +42,8 @@ You are an expert in NHL goaltending evaluation. Your goal is to surface the met
 
 | Not Available | Use Instead |
 |--------------|-------------|
-| `get_goalie_advanced_stats` | Use `get_goalie_stats` and compute GSAA, xSV% manually. The API returns `gsax`, `highDangerSavePct`, `rollingSavePct`, `trend` and `restDays`, but all five are null for every goalie -- never read them |
-| `get_starter` | Use `get_game_detail` for confirmed starters; note pregame starter is not available via API |
+| `get_goalie_advanced_stats` | `get_goalie_stats` already returns them: `gsax`, `expectedGoalsAgainst`, `highDangerSavePct`, `rollingSavePct`, `rollingGsax`, `trend`, `restDays`. Read those rather than recomputing |
+| `get_starter` | `get_game_detail` returns `goalie_starts` with both starters and their time on ice, derived from play-by-play. It covers games that have been PLAYED -- tonight's announced starter is not available from any endpoint |
 | `get_goalie_splits` | Use `get_goalie_stats` with home/away or rest-day filters |
 | `get_expected_goals_against` | Derive from team shot quality via `get_team_stats` |
 
@@ -72,12 +72,19 @@ Call `get_goalie_stats` with the appropriate filters. If a specific goalie is na
 
 Raw SV% is noisy over short samples. Compute the metrics that stabilize faster:
 
-| Metric | Formula | Why It Matters |
-|--------|---------|---------------|
-| GSAA | (Actual saves) - (League avg SV% x Shots faced) | Normalizes for shot volume |
-| xSV% | Expected saves / Shots faced (based on shot location/type) | Strips out shot quality luck |
-| HDSA% | High-danger saves / High-danger shots against | Most predictive of future SV% |
-| QS% | Quality starts / Games started | QS = SV% >= .915 or <= 2.50 GAA in < 20 minutes |
+| Metric | Where it comes from | Why It Matters |
+|--------|---------------------|---------------|
+| GSAX | `gsax` from the API | Expected goals against minus goals allowed. Adjusts for the quality of shots faced, not just the volume. Positive is above average |
+| HDSV% | `highDangerSavePct` from the API | Save % inside the slot, about a quarter of shots, saved at ~87% league-wide. Most predictive of future SV% |
+| Rolling form | `rollingSavePct`, `rollingGsax`, `trend` | Last 10 appearances against the season |
+| GSAA | (Actual saves) - (League avg SV% x Shots faced) | The volume-only cousin of GSAX. Compute it if you want the contrast: a goalie whose GSAA and GSAX diverge is facing an unusual shot mix |
+| QS% | Quality starts / Games started | QS = SV% >= .915 or <= 2.50 GAA in < 20 minutes. Compute from game logs |
+
+**GSAX is calibrated within each season**, so league GSAX sums to zero every
+year and goalies are compared with their own season's peers. It covers every
+strength; the team xG on `get_team_stats` is 5v5 only, so never difference the
+two. The model slightly over-rates the most dangerous chances, so treat small
+gaps between two goalies as noise.
 
 **Step 3: Workload and fatigue flags**
 
@@ -95,16 +102,16 @@ Use `get_game_detail` for a specific game's starting goalie. Note the API reflec
 
 **Step 6: Contextualize and rank**
 
-Present findings with both raw and adjusted metrics. Highlight divergence: a goalie with .905 raw SV% but .918 xSV% is being sold short by bad shot luck. A goalie with .925 raw SV% but .908 xSV% is running hot.
+Present findings with both raw and adjusted metrics. Highlight divergence: a goalie with a .905 save percentage and a strongly positive GSAX is being sold short by the shots he faces. A goalie with .925 and a negative GSAX is running hot on an easy workload.
 
 ## Data Source
 
-**PuckAPI (default):** Use `get_goalie_stats`. Data includes GP, GS, W, L, OTL, SV%, GAA, SO, and game-level logs.
+**PuckAPI (default):** Use `get_goalie_stats`. Returns GP, GS, W, L, OTL, SV%, GAA, SO plus the shot-quality-adjusted set: `gsax`, `expectedGoalsAgainst`, `highDangerSavePct`, `rollingSavePct`, `rollingGsax`, `trend` and `restDays`. Sort the leaderboard with `sort_by: "gsax"` when the question is about goalie quality rather than team results.
 
 **Your own data:** If user provides CSV/JSON:
 1. Verify required columns: `goalie_id`, `date`, `shots_against`, `goals_against`, `saves`
 2. For GSAA, you also need league-average SV% for the same period
-3. For xSV%, you need shot location/danger-zone tagging. `get_shot_map` has it: x/y coordinates, shot type, strength, shooter and goalie for every shot attempt. Use it rather than flagging a gap
+3. For shot-quality metrics on your own data, you need location/danger-zone tagging. `get_shot_map` has it: x/y coordinates, shot type, strength, shooter and goalie for every attempt. For PuckAPI data the work is already done -- read `gsax` and `highDangerSavePct`
 4. Check date format (ISO 8601 preferred)
 5. Credits are not consumed when using own data
 
