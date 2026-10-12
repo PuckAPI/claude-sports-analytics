@@ -198,6 +198,22 @@ Skills are **markdown files, not code**. Each one teaches Claude a specific doma
 
 ---
 
+## Other sports
+
+The same kind of skills pack, wired to each sport's own data API:
+
+| Sport | Skills | Data API |
+|-------|--------|----------|
+| NFL and college football | [endzoneapi-mcp/skills](https://github.com/noahowsh/endzoneapi-mcp/tree/main/skills) | [EndzoneAPI](https://endzoneapi.com/skills) |
+| NBA, WNBA and college basketball | [dunkapi-mcp/skills](https://github.com/noahowsh/dunkapi-mcp/tree/main/skills) | [DunkAPI](https://dunkapi.com/skills) |
+| MLB and college baseball | [fastballapi-mcp/skills](https://github.com/noahowsh/fastballapi-mcp/tree/main/skills) | [FastballAPI](https://fastballapi.com/skills) |
+| Soccer, 17 competitions | [strikerapi-mcp/skills](https://github.com/noahowsh/strikerapi-mcp/tree/main/skills) | [StrikerAPI](https://strikerapi.com/skills) |
+| ATP and WTA tennis | [acesapi-mcp/skills](https://github.com/noahowsh/acesapi-mcp/tree/main/skills) | [AcesAPI](https://acesapi.com/skills) |
+| PGA Tour and other golf tours | [birdieapi-mcp/skills](https://github.com/noahowsh/birdieapi-mcp/tree/main/skills) | [BirdieAPI](https://birdieapi.com/skills) |
+| UFC, PFL and Bellator | [fighterapi-mcp/skills](https://github.com/noahowsh/fighterapi-mcp/tree/main/skills) | [FighterAPI](https://fighterapi.com/skills) |
+
+---
+
 ## Reference Docs
 
 | Doc | Contents |
