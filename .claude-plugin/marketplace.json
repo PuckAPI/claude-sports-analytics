@@ -1,0 +1,14 @@
+{
+  "name": "puckapi",
+  "description": "Hockey analytics skills for Claude Code, wired to the PuckAPI MCP server",
+  "owner": {
+    "name": "PuckAPI"
+  },
+  "plugins": [
+    {
+      "name": "puckapi-skills",
+      "source": "./",
+      "description": "28 hockey analytics and betting-model skills"
+    }
+  ]
+}

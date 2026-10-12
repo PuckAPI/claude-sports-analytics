@@ -6,9 +6,6 @@
     "name": "PuckAPI"
   },
   "homepage": "https://puckapi.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/PuckAPI/claude-sports-analytics.git"
-  },
+  "repository": "https://github.com/PuckAPI/claude-sports-analytics",
   "license": "MIT"
 }

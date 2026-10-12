@@ -40,6 +40,13 @@ Claude: [loads odds-explorer + edge-detection → pulls live odds from the books
 git clone https://github.com/PuckAPI/claude-sports-analytics.git
 ```
 
+Or install them as a Claude Code plugin:
+
+```
+/plugin marketplace add PuckAPI/claude-sports-analytics
+/plugin install puckapi-skills@puckapi
+```
+
 **2. Connect live NHL data** (optional — 500 free credits):
 
 ```bash
