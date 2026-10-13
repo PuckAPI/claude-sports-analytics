@@ -242,7 +242,7 @@ Skills are markdown files in `skills/[name]/SKILL.md`. Each skill has a consiste
 
 <div align="center">
 
-**[PuckAPI MCP Server](https://github.com/PuckAPI/mcp)** · **[puckapi.com](https://puckapi.com)** · **[API Docs](https://puckapi.com/docs)**
+**[PuckAPI MCP Server](https://github.com/PuckAPI/mcp)** · **[puckapi.com](https://puckapi.com)** · **[API Docs](https://puckapi.com/docs)** · **[Player props today](https://puckapi.com/props)**
 
 <sub>MIT License</sub>
 
