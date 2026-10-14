@@ -247,3 +247,28 @@ Skills are markdown files in `skills/[name]/SKILL.md`. Each skill has a consiste
 <sub>MIT License</sub>
 
 </div>
+
+## Use with Codex
+
+Add this repo as a Codex plugin marketplace, then install the plugin:
+
+```bash
+codex plugin marketplace add PuckAPI/claude-sports-analytics
+```
+
+Then open the plugin directory in Codex and install `puckapi-skills` from the `puckapi` marketplace. The plugin bundles the skills in `skills/` and the PuckAPI MCP server (https://mcp.puckapi.com/mcp). Set your key first (free at https://puckapi.com/signup):
+
+```bash
+export PUCKAPI_API_KEY=your_key
+```
+
+Codex sends it as a bearer token.
+
+## Use with Gemini CLI
+
+```bash
+export PUCKAPI_API_KEY=your_key
+gemini extensions install https://github.com/PuckAPI/claude-sports-analytics
+```
+
+The extension adds the PuckAPI MCP server (https://mcp.puckapi.com/mcp) and sends the key in the `x-api-key` header. Get a free key (500 credits a month) at https://puckapi.com/signup.

@@ -1,0 +1,14 @@
+{
+  "name": "puckapi",
+  "version": "1.0.0",
+  "description": "PuckAPI MCP server for NHL hockey data: schedules, results, stats and odds.",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "puckapi": {
+      "httpUrl": "https://mcp.puckapi.com/mcp",
+      "headers": {
+        "x-api-key": "${PUCKAPI_API_KEY}"
+      }
+    }
+  }
+}
