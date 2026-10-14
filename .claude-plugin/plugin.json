@@ -1,11 +1,26 @@
 {
   "name": "puckapi-skills",
-  "description": "28 Claude Code skills for hockey analytics with PuckAPI. NHL data exploration, hockey analytics, betting models, and research workflows.",
+  "description": "28 Claude skills for hockey analytics and betting models, built on PuckAPI's NHL data.",
   "version": "1.0.0",
   "author": {
     "name": "PuckAPI"
   },
-  "homepage": "https://puckapi.com",
+  "homepage": "https://puckapi.com/skills",
   "repository": "https://github.com/PuckAPI/claude-sports-analytics",
-  "license": "MIT"
+  "license": "MIT",
+  "displayName": "PuckAPI Skills",
+  "documentationUrl": "https://puckapi.com/docs",
+  "privacyPolicyUrl": "https://puckapi.com/privacy",
+  "termsOfServiceUrl": "https://puckapi.com/terms",
+  "supportUrl": "mailto:support@puckapi.com",
+  "keywords": [
+    "hockey",
+    "nhl",
+    "sports-analytics",
+    "sports-betting",
+    "sports-data",
+    "odds",
+    "backtesting",
+    "puckapi"
+  ]
 }
