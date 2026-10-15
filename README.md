@@ -32,6 +32,28 @@ Claude: [loads odds-explorer + edge-detection → pulls live odds from the books
          compares to your model's probabilities, calculates EV, sizes the bet]
 ```
 
+## Python
+
+The official Python client is on PyPI: [puckapi](https://pypi.org/project/puckapi/).
+
+```bash
+pip install puckapi
+export PUCKAPI_API_KEY=sk_live_...
+```
+
+```python
+from puckapi import Client, to_dataframe
+
+client = Client()
+
+odds = client.get_odds(game_id="2026020080", snapshot_type="closing")
+df = to_dataframe(odds, key="odds")
+print(df[["bookmaker", "mlHome", "mlAway", "total"]])
+print("credits left:", client.last_credits_remaining)
+```
+
+Typed errors for a bad key, no credits left, not found and rate limits, automatic retries, and `to_dataframe` for pandas.
+
 ## Quick Start
 
 **1. Clone the skills:**
