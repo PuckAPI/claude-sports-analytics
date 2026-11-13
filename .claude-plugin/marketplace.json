@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "puckapi-skills",
-      "source": "./",
+      "source": "./plugin",
       "description": "28 hockey analytics and betting-model skills"
     }
   ]
