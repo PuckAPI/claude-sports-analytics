@@ -11,7 +11,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-5dd5ff.svg?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-28-5dd5ff?style=flat-square)](skills/)
-[![MCP Tools](https://img.shields.io/badge/MCP_tools-15-5dd5ff?style=flat-square)](https://github.com/PuckAPI/mcp)
+[![MCP Tools](https://img.shields.io/badge/MCP_tools-28-5dd5ff?style=flat-square)](https://github.com/PuckAPI/mcp)
 
 [Quick Start](#quick-start) · [All Skills](#skills) · [How It Works](#how-it-works) · [Data](#data) · [Docs](#reference-docs)
 
@@ -227,6 +227,15 @@ Skills are **markdown files, not code**. Each one teaches Claude a specific doma
 
 ---
 
+## Use it in
+
+- **Claude, ChatGPT, Cursor, VS Code, Gemini CLI, Grok, Perplexity, Le Chat:** add `https://mcp.puckapi.com/mcp` as a remote MCP server. Step-by-step for each: https://puckapi.com/mcp
+- **Gemini CLI:** `gemini extensions install https://github.com/PuckAPI/claude-sports-analytics`
+- **Cursor:** the [SportsDataHQ plugins for Cursor](https://github.com/noahowsh/sportsdatahq-cursor-plugins)
+- **Google Sheets:** `=SDHQ("puckapi","get_standings")` fills a live table: https://sportsdatahq.com/sheets
+
+---
+
 ## Other sports
 
 The same kind of skills pack, wired to each sport's own data API:
@@ -240,6 +249,7 @@ The same kind of skills pack, wired to each sport's own data API:
 | ATP and WTA tennis | [acesapi-mcp/skills](https://github.com/noahowsh/acesapi-mcp/tree/main/skills) | [AcesAPI](https://acesapi.com/skills) |
 | PGA Tour and other golf tours | [birdieapi-mcp/skills](https://github.com/noahowsh/birdieapi-mcp/tree/main/skills) | [BirdieAPI](https://birdieapi.com/skills) |
 | UFC, PFL and Bellator | [fighterapi-mcp/skills](https://github.com/noahowsh/fighterapi-mcp/tree/main/skills) | [FighterAPI](https://fighterapi.com/skills) |
+| Cricket, every format | [yorkerapi-mcp](https://github.com/noahowsh/yorkerapi-mcp) | [YorkerAPI](https://yorkerapi.com) |
 
 ---
 
